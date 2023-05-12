@@ -1,0 +1,16 @@
+{
+  "scripts": {
+    "start": "nodemon users.js",
+    "dev": "NODE_ENV=developement nodemon users.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "helmet": "^7.0.0",
+    "nodemon": "^2.0.22",
+    "postgres": "^3.3.4",
+    "xss-clean": "^0.1.1"
+  }
+}
