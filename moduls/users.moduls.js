@@ -20,7 +20,7 @@ const getUsersByEmail = async (email) => {
 
 const getAllUser = async () => {
   try {
-    const query = await db`SELECT * FROM users` //ORDER BY id ASC`
+    const query = await db`SELECT * FROM users ORDER BY id ASC`
     return query
   } catch (error) {
     return error
@@ -29,7 +29,7 @@ const getAllUser = async () => {
 
 const insertUserById = async (payload) => {
   try {
-    const query = await db`INSERT INTO users ${db(payload, 'email', 'fullName', 'phoneNumber', 'password', 'profilePicture')} returning *`
+    const query = await db`INSERT INTO users ${db(payload, 'email', 'fullName', 'phoneNumber', 'password')} returning *`
     return query
   } catch (error) {
     return error
@@ -38,7 +38,7 @@ const insertUserById = async (payload) => {
 
 const EditUsersById = async (payload, id) => {
   try {
-    const query = await db`UPDATE users set ${db(payload, 'email', 'fullName', 'phoneNumber', 'password', 'profilePicture')} WHERE id = ${id} returning *`
+    const query = await db`UPDATE users set ${db(payload, 'email', 'fullName', 'phoneNumber', 'password')} WHERE id = ${id} returning *`
     return query
   } catch (error) {
     return error

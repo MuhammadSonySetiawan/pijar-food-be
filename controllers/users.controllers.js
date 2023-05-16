@@ -195,7 +195,7 @@ const editAllUsers = async (req, res) => {
 const deleteUsersById = async (req, res) => {
   try {
     jwt.verify(getToken(req), process.env.PRIVATE_KEY, async (err, {id}) => {
-      if (isNaN(decoded?.id)) {
+      if (isNaN(id)) {
         res.status(400).json({
           status: false,
           massage: "Id must be integer",

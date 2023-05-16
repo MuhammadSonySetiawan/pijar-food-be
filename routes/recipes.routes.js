@@ -1,6 +1,7 @@
 const router = require('express').Router()
 const controllers = require('../controllers/recipes.controllers')
 
+
 // routing RECIPES
 // get data by id RECIPES
 router.get('/recipes/:id', controllers.getRecipesById)
@@ -44,5 +45,7 @@ router.delete('/recipes/:id', controllers.deleteRecipesById)
 
 // All Delete RECIPES
 router.delete('/recipes', controllers.DeleteAllRecipes)
+
+router.patch("/recipes/vidio", controllers.editVideoRecipes);
 
 module.exports = router

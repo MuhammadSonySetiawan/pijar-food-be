@@ -1,7 +1,7 @@
 const models = require('../moduls/users.moduls')
 const db = require('../database')
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 const loginUsers = async (req, res) => {
   try {
@@ -19,7 +19,7 @@ const loginUsers = async (req, res) => {
 
     const checkUsers = await models.getUsersByEmail(email)
 
-    if (checkUsers?.length === 0) {
+    if (!checkUsers?.length) {
       res.status(400).json({
         status: false,
         message: 'Email not registered in app'
@@ -29,30 +29,28 @@ const loginUsers = async (req, res) => {
     }
     // node : fix this in future
     bcrypt.compare(password, checkUsers[0]?.password, function (err, result) {
-      if(result){
+      if (result) {
         const token = jwt.sign(
           {
             ...checkUsers[0],
-            password: null,
+            password: null
           },
           process.env.PRIVATE_KEY
-        );
-  
+        )
+
         res.json({
           status: true,
-          message: "Get data success",
+          message: 'Get data success',
           data: checkUsers,
-          token,
-        });
-          }else{
-            res.status(400).json({
-              status: false,
-              message: "Password invalid",
-            });
-
-            return;
-          }
-    });
+          token
+        })
+      } else {
+        res.status(400).json({
+          status: false,
+          message: 'Password invalid'
+        })
+      }
+    })
   } catch (error) {
     res.status(500).json({
       status: false,

@@ -1,4 +1,3 @@
-const { query } = require('express')
 const db = require('../database')
 
 const getRecipesById = async (id) => {
@@ -12,13 +11,14 @@ const getRecipesById = async (id) => {
 
 const getAllRecipes = async (keyword, sort) => {
   try {
-    const query = await db`SELECT *,count(*) OVER() AS full_count FROM recipes WHERE LOWER(recipes.title) LIKE LOWER(${keyword}) ORDER BY recipes.id ${sort}`
-    
-    return query;
-  } catch {
-    return error;
+    const query =
+      await db`SELECT *,count(*) OVER() AS full_count FROM recipes WHERE LOWER(recipes.title) LIKE LOWER(${keyword}) ORDER BY recipes.id ${sort}`
+
+    return query
+  } catch (error) {
+    return error
   }
-};
+}
 
 const postAllrecipes = async (payload) => {
   try {
@@ -30,43 +30,42 @@ const postAllrecipes = async (payload) => {
       'videoLink'
     )} returning *`
 
-    return query;
-  } catch {
-    return error;
+    return query
+  } catch (error) {
+    return error
   }
-};
+}
 
 const patchRecipesById = async (payload, id) => {
   try {
     const query = await db`UPDATE recipes set ${db(
       payload,
-      "recipePicture",
-      "title",
-      "ingredients",
-      "videoLink"
-    )} WHERE id = ${id} returning *`;
+      'recipePicture',
+      'title',
+      'ingredients',
+      'videoLink'
+    )} WHERE id = ${id} returning *`
 
-    return query;
-  } catch {
-    return error;
+    return query
+  } catch (error) {
+    return error
   }
-};
+}
 
 const deleteRecipesById = async (id) => {
   try {
-    const query = await db`DELETE FROM recipes WHERE id = ${id} returning *`;
+    const query = await db`DELETE FROM recipes WHERE id = ${id} returning *`
 
-    return query;
-  } catch {
-    return error;
+    return query
+  } catch (error) {
+    return error
   }
-};
-
+}
 
 module.exports = {
   getRecipesById,
   getAllRecipes,
   postAllrecipes,
   patchRecipesById,
-  deleteRecipesById,
-};
+  deleteRecipesById
+}
