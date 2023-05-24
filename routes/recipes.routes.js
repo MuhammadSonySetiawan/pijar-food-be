@@ -46,6 +46,4 @@ router.delete('/recipes/:id', controllers.deleteRecipesById)
 // All Delete RECIPES
 router.delete('/recipes', controllers.DeleteAllRecipes)
 
-router.patch("/recipes/vidio", controllers.editVideoRecipes);
-
 module.exports = router

@@ -75,9 +75,7 @@ const addNewProfile = async (req, res) => {
 
     // Validasi Email
     const checkData = await db`SELECT * FROM users WHERE email = ${email}`
-    console.log(checkData[0])
     const input = req.body
-    console.log(input)
 
     if (!(checkData)) {
       res.json({

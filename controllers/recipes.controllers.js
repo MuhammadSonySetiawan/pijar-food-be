@@ -231,81 +231,6 @@ const DeleteAllRecipes = async (req, res) => {
   })
 }
 
-// const editVideoRecipes = async (req, res) => {
-//   try {
-//     // jwt.verify(getToken(req), process.env.PRIVATE_KEY, async (err, { id }) => {
-//       const {
-//         params: { id },
-//         body: {videoLink},
-//       } = req;
-
-//       const { video } = req?.files ?? {};
-
-//       if (!video) {
-//         res.status(400).send({
-//           status: false,
-//           massage: "Vidio is required",
-//         });
-//       }
-
-//       let mimeType = video.mimetype.split("/")[1];
-//       let allowFile = ["MP4", "AVI", "MPG", "MKV"];
-
-//       // cari apakah tipe data yang di upload terdapat salah satu dari list yang ada diatas
-//       if (!allowFile?.find((item) => item === mimeType)) {
-//         res.status(400).send({
-//           status: false,
-//           message: "Only accept jpeg, jpg, png, webp",
-//         });
-//       }
-
-//       // validate size image
-//       if (video.size > 5000000) {
-//         res.status(400).send({
-//           status: false,
-//           message: "File to big, max size 5MB",
-//         });
-//       }
-
-//       // Configuration
-//       claudinary.config({
-//         cloud_name: "dkehmtgjl",
-//         api_key: "398999231531429",
-//         api_secret: "mbEqjpo8Lx1gM0_-oOKVRZok1Bs",
-//       });
-
-//       const upload = claudinary.uploader.upload(video.tempFilePath, {
-//         public_id: new Date().toISOString(),
-//       });
-
-//       upload
-//         .then(async (data) => {
-//           const payload = {
-//             video: data?.secure_url,
-//           };
-
-//           models.editvideoUsers(payload, id);
-
-//           res.status(200).send({
-//             status: false,
-//             message: "Success upload",
-//             data: payload,
-//           });
-//         })
-//         .catch((err) => {
-//           res.status(400).send({
-//             status: false,
-//             message: err,
-//           });
-//         });
-//     // });
-//   } catch (erorr) {
-//     res.status(500).send({
-//       status: false,
-//       massage: "Error on server",
-//     });
-//   }
-// };
 
 module.exports = {
   getRecipesById,
@@ -315,5 +240,4 @@ module.exports = {
   patchAllRecipes,
   deleteRecipesById,
   DeleteAllRecipes,
-  editVideoRecipes,
 };
