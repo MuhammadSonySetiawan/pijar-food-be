@@ -110,7 +110,7 @@ const getAllRecipesUsersMe = async (req, res) => {
       }
   
       if (req?.query?.keyword) {
-        query = await db`SELECT *,count(*) OVER() AS full_count FROM recipes WHERE LOWER(recipes.title) LIKE LOWER(${keyword}) AND createby = ${id} ORDER BY recipes.id ${sort}`;
+        query = await db`SELECT *,count(*) OVER() AS full_count FROM recipes WHERE LOWER(recipes.title) LIKE LOWER(${keyword}) AND createby = ${id} ORDER BY id ${sort}`;
       } else {
         query = await db`SELECT *,count(*) OVER() AS full_count FROM recipes WHERE createby = ${id} ORDER BY id ${sort}`;
       }
