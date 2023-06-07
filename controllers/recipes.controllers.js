@@ -1,28 +1,22 @@
 const models = require('../moduls/recipes.moduls')
 const db = require('../database')
+const jwt = require("jsonwebtoken");
+
+function getToken(req) {
+  const token = req?.headers?.authorization?.slice(7, req?.headers?.authorization?.length);
+
+  return token;
+}
 
 const getRecipesById = async (req, res) => {
   try {
-    const {
-      params: { id }
-    } = req
+    query = await db`SELECT * FROM recipes WHERE id =${id}`;
 
-    if (isNaN(id)) {
-      res.status(400).json({
-        status: false,
-        message: 'ID must be integer'
-      })
-
-      return
-    }
-
-    const query = await models.getRecipesById(id)
-
-    res.json({
-      status: true,
-      message: 'Get data success',
-      data: query
-    })
+        res.json({
+          status: true,
+          message: "Get data success",
+          data: query
+        });
   } catch (error) {
     res.status(500).json({
       status: false,
@@ -45,7 +39,7 @@ const getAllRecipes = async (req, res) => {
 
     if (req?.query?.sortType?.toLowerCase() === 'asc') {
       if (isPagination) {
-        sort = db`ASC LIMIT 10 OFFSET ${10 * (parseInt(req?.query?.page) - 1)}`
+        sort = db`ASC LIMIT 6 OFFSET ${6 * (parseInt(req?.query?.page) - 1)}`
       } else {
         sort = db`ASC`
       }
@@ -53,7 +47,7 @@ const getAllRecipes = async (req, res) => {
 
     // check if sort type not exist paginate exist
     if (isPagination && !req?.query?.sortType) {
-      sort = db`DESC LIMIT 10 OFFSET ${10 * (parseInt(req?.query?.page) - 1)}`
+      sort = db`DESC LIMIT 6 OFFSET ${6 * (parseInt(req?.query?.page) - 1)}`
     }
 
     if (req?.query?.keyword) {
@@ -75,7 +69,7 @@ const getAllRecipes = async (req, res) => {
         ? {
             carrent: parseInt(req?.query?.page),
             total: query?.[0]?.full_count
-              ? Math.ceil(parseInt(query?.[0]?.full_count) / 10)
+              ? Math.ceil(parseInt(query?.[0]?.full_count) / 6)
               : 0
           }
         : null,
@@ -91,6 +85,64 @@ const getAllRecipes = async (req, res) => {
     })
   }
 }
+
+const getAllRecipesUsersMe = async (req, res) => {
+  try {
+    jwt.verify(getToken(req), process.env.PRIVATE_KEY, async (err, {id}) => {
+      let query;
+      const keyword = `%${req?.query?.keyword}%`;
+      let sort = db`DESC`;
+      const isPagination = req?.query?.page && !isNaN(req?.query?.page) && parseInt(req?.query?.page) >= 1;
+  
+      // check if sort type exitand paginate exist
+  
+      if (req?.query?.sortType?.toLowerCase() === "asc") {
+        if (isPagination) {
+          sort = db`ASC LIMIT 6 OFFSET ${6 * (parseInt(req?.query?.page) - 1)}`;
+        } else {
+          sort = db`ASC`;
+        }
+      }
+  
+      // check if sort type not exist paginate exist
+      if (isPagination && !req?.query?.sortType) {
+        sort = db`DESC LIMIT 6 OFFSET ${6 * (parseInt(req?.query?.page) - 1)}`;
+      }
+  
+      if (req?.query?.keyword) {
+        query = await db`SELECT *,count(*) OVER() AS full_count FROM recipes WHERE LOWER(recipes.title) LIKE LOWER(${keyword}) AND createby = ${id} ORDER BY recipes.id ${sort}`;
+      } else {
+        query = await db`SELECT *,count(*) OVER() AS full_count FROM recipes WHERE createby = ${id} ORDER BY id ${sort}`;
+      }
+  
+      //  query = await db`SELECT * FROM recipes ORDER BY id ASC`
+  
+      // OFFSET LIMIT
+  
+      res.json({
+        status: !!query?.length,
+        message: query?.length ? "Get data success" : "Data not found",
+        total: query?.length ?? 0,
+        pages: isPagination
+          ? {
+              carrent: parseInt(req?.query?.page),
+              total: query?.[0]?.full_count ? Math.ceil(parseInt(query?.[0]?.full_count) / 6) : 0,
+            }
+          : null,
+        data: query?.map((item) => {
+          delete item.full_count;
+          return item;
+        }),
+      });
+    })
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "Error in server",
+    });
+  }
+};
+
 
 const postAllrecipes = async (req, res) => {
   try {
@@ -235,6 +287,7 @@ const DeleteAllRecipes = async (req, res) => {
 module.exports = {
   getRecipesById,
   getAllRecipes,
+  getAllRecipesUsersMe,
   postAllrecipes,
   patchRecipesById,
   patchAllRecipes,

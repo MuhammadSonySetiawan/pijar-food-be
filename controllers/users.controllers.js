@@ -96,7 +96,6 @@ const addNewProfile = async (req, res) => {
 
       let query
 
-
     bcrypt.genSalt(saltRounds, function (err, salt) {
       bcrypt.hash(password, salt, async function (err, hash) {
         // Store hash in your password DB.

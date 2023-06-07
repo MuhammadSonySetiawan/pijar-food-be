@@ -44,6 +44,6 @@ app.use(usersRoutes)
 app.use(recipesRouter)
 app.use(authRoutes)
 
-app.listen(3000, () => {
-  console.log('App running in port 3000')
+app.listen(8000, () => {
+  console.log('App running in port 8000')
 })

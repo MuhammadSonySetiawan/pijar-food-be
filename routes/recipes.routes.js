@@ -9,9 +9,11 @@ router.get('/recipes/:id', controllers.getRecipesById)
 // get all data RECIPES
 router.get('/recipes', controllers.getAllRecipes)
 
+//get recipes profile
+router.get('/recipes/users/me', controllers.getAllRecipesUsersMe)
 // get all data pagination RECIPES
 //   router.post("/recipes", async function (req, res) {
-//     try {
+//     try { 
 
 //       for(let index = 0 ; index < 20 ; index++){
 //         await db`INSERT INTO "public"."recipes" ("recipePicture", "title", "ingredients", "videoLink") VALUES
