@@ -12,7 +12,7 @@ const getRecipesById = async (id) => {
 const getAllRecipes = async (keyword, sort) => {
   try {
     const query =
-      await db`SELECT *,count(*) OVER() AS full_count FROM recipes WHERE LOWER(recipes.title) LIKE LOWER(${keyword}) ORDER BY recipes.id ${sort}`
+      await db`SELECT *,count(*) OVER() AS full_count FROM recipes WHERE LOWER(recipes.title) LIKE LOWER(${keyword}) ORDER BY id ${sort}`
 
     return query
   } catch (error) {
