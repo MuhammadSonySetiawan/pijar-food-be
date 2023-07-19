@@ -16,8 +16,6 @@ Backend for Pijar Food uses a number of open source projects to work properly:
 - [Express](https://expressjs.com/) - fast node.js network app framework [@tjholowaychuk]
 - [PostgreSQL](https://www.postgresql.org/) - the powerfull database
 
-And of course Backend for Pijar Food itself is open source with a [public repository](https://github.com/MuhammadSonySetiawan) on GitHub and also You can try this [deploy](https://).
-
 ## Installation
 
 Backend for Pijar Food requires [Node.js](https://nodejs.org/) v10+ to run.
