@@ -10,6 +10,7 @@ function getToken(req) {
 
 const getRecipesById = async (req, res) => {
   try {
+    const {id} = req.params;
     query = await db`SELECT * FROM recipes WHERE id =${id}`;
 
         res.json({
