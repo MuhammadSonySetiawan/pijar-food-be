@@ -269,13 +269,13 @@ try{
     }
   
     // Configuration
-      claudinary.config({
+      cloudinary.config({
         cloud_name: "dn4j2hs0g",
         api_key: "724768617871241",
         api_secret: "P2rUMfYfBnzJkBrMfkBiKBWc1Xw",
       });
   
-    const upload = claudinary.uploader.upload(photo.tempFilePath, {
+    const upload = cloudinary.uploader.upload(photo.tempFilePath, {
       public_id: new Date().toISOString(),
     });
   
