@@ -3,7 +3,7 @@ const db = require('../database')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 const jwt = require("jsonwebtoken");
-const claudinary = require('../cloudinary')
+const cloudinary = require("cloudinary").v2;
 
 function getToken (req){
   const token = req?.headers?.authorization?.slice(
@@ -270,9 +270,9 @@ try{
   
     // Configuration
       claudinary.config({
-        cloud_name: "dkehmtgjl",
-        api_key: "398999231531429",
-        api_secret: "mbEqjpo8Lx1gM0_-oOKVRZok1Bs",
+        cloud_name: "dn4j2hs0g",
+        api_key: "724768617871241",
+        api_secret: "P2rUMfYfBnzJkBrMfkBiKBWc1Xw",
       });
   
     const upload = claudinary.uploader.upload(photo.tempFilePath, {
