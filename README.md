@@ -3,9 +3,9 @@ Backend for Pijar Food built with Express and Postgres.
 
 ![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white) ![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) ![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
-Backend for Pijar Food is an API for cloths e-commerce.
+The backend for Pijar Food is an API for how to make food.
 
-- CRUD Products, Users, and Orders
+- Users and CRUD
 - Authentication and Authorization
 - Validation
 
@@ -21,7 +21,7 @@ Backend for Pijar Food uses a number of open source projects to work properly:
 Backend for Pijar Food requires [Node.js](https://nodejs.org/) v10+ to run.
 
 ```sh
-cd blanja-app-be
+cd pijar-food-be
 npm i
 nodemon app
 ```
@@ -31,4 +31,6 @@ nodemon app
 
 - [`Backend Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar-food-be)
 
-- [`Demo Recipe Food`](https://easy-pink-walrus-garb.cyclic.app/)
+- [`Demo Recipe Food Frontend`](https://pijar-food-react-nine.vercel.app/)
+
+- [`Demo Recipe Food Backend`](https://easy-pink-walrus-garb.cyclic.app/)
