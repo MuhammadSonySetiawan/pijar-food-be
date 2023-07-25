@@ -21,7 +21,7 @@ Backend for Pijar Food uses a number of open source projects to work properly:
 Backend for Pijar Food requires [Node.js](https://nodejs.org/) v10+ to run.
 
 ```sh
-cd blanja-app-be
+cd pijar-food-be
 npm i
 nodemon app
 ```
