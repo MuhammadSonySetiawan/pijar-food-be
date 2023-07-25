@@ -44,6 +44,10 @@ app.use(usersRoutes)
 app.use(recipesRouter)
 app.use(authRoutes)
 
+app.get("/", function (req, res) {
+  res.send("Hello World");
+});
+
 app.listen(8000, () => {
   console.log('App running in port 8000')
 })
