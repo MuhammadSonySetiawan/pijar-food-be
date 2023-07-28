@@ -1,8 +1,8 @@
 const models = require('../moduls/users.moduls')
-const db = require('../database')
 const bcrypt = require('bcrypt')
 const saltRounds = 10
 const jwt = require("jsonwebtoken");
+// const db = require('../database')
 const cloudinary = require("cloudinary").v2;
 
 function getToken (req){
@@ -60,61 +60,54 @@ const getAllUsers = async function (req, res) {
   }
 }
 
-const addNewProfile = async (req, res) => {
-  try {
-    const { email, fullName, phoneNumber, password } = req.body
-
-    if (!(email && fullName && phoneNumber && password)) {
-      res.status(400).json({
-        status: false,
-        massage: 'Bad input, pleace complate all of field'
-      })
-
-      return
-    }
-
-    // Validasi Email
-    const checkData = await db`SELECT * FROM users WHERE email = ${email}`
-    const input = req.body
-
-    if (!(checkData)) {
-      res.json({
-        status: false,
-        massage: 'Email Already in use'
-      })
-
-      return
-    }
-    // End Validasi Email
-
-    const payload = {
-      email,
-      fullName,
-      phoneNumber,
-      password
-    }
-
-      let query
-
-    bcrypt.genSalt(saltRounds, function (err, salt) {
-      bcrypt.hash(password, salt, async function (err, hash) {
-        // Store hash in your password DB.
-
-      query = await models.insertUserById({ ...payload, password: hash });
-      });
+const addNewProfile = async function (req, res) {
+  const { email, fullName, phoneNumber, password } = req.body;
+  // validasi input
+  if (!(email && fullName && phoneNumber && password)) {
+    res.status(400).json({
+      status: false,
+      massage: "Bad input, pleace complate all of field",
     });
 
-    res.send({
-      status: true,
-      message: 'Success insert data',
-      data: query
-    })
-  } catch (error) {
-    res.status(500).json({
-      status: false,
-      message: 'Error in server'
-    })
+    return;
   }
+
+  // Validasi Email
+  const checkData = await db`SELECT * FROM users WHERE email = ${email}`;
+  const input = req.body;
+
+  if (!checkData) {
+    res.json({
+      status: false,
+      massage: "Email Already in use",
+    });
+
+    return;
+  }
+  // End Validasi Email
+
+  const payload = {
+    email,
+    fullName,
+    phoneNumber,
+    password,
+  };
+
+  let query;
+
+  bcrypt.genSalt(saltRounds, function (err, salt) {
+    bcrypt.hash(password, salt, async function (err, hash) {
+      // Store hash in your password DB.
+
+      query = await models.insertUserById({ ...payload, password: hash });
+    });
+  });
+
+  res.send({
+    status: true,
+    message: "Success insert data",
+    data: query,
+  });
 }
 
 const editUsers = async (req, res) => { 
@@ -175,13 +168,15 @@ const editUsers = async (req, res) => {
       });
     })
   } catch (error) {
-    res.status(500).json({
-      status: false,
-      message: 'Error in server'
-    })
+    console.log(error);
+    // res.status(500).json({
+    //   status: false,
+    //   message: 'Error in server'
+    // })
   }
 }
 
+// TIdak ada
 const editAllUsers = async (req, res) => {
   res.status(404).json({
     status: false,
@@ -189,8 +184,8 @@ const editAllUsers = async (req, res) => {
   })
 }
 
-const deleteUsersById = async (req, res) => {
-  try {
+
+const deleteUsersById = async function (req, res) {
     jwt.verify(getToken(req), process.env.PRIVATE_KEY, async (err, {id}) => {
       if (isNaN(id)) {
         res.status(400).json({
@@ -220,15 +215,9 @@ const deleteUsersById = async (req, res) => {
         data: query,
       });
     })
-
-  } catch (error) {
-    res.status(500).json({
-      status: false,
-      message: 'Error in server'
-    })
-  }
 }
 
+// Tidak ada
 const deleteAllUsers = async (req, res) => {
   res.status(404).json({
     status: false,

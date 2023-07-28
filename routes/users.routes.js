@@ -4,10 +4,10 @@ const middleware = require('../middleware/jwt.middleware')
 
 // routing USERS
 // get data by id USERS
-router.get("/users/:id", controllers.getUsersById)
+router.get("/users/:id", middleware, controllers.getUsersById);
 
 // get all data USERS
-router.get("/users", controllers.getAllUsers)
+router.get("/users", middleware, controllers.getAllUsers)
 
 // post data by id USERS
 router.post("/users", controllers.addNewProfile);

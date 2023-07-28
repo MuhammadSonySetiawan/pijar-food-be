@@ -57,7 +57,7 @@ const getAllRecipes = async (req, res) => {
       query =
         await db`SELECT *,count(*) OVER() AS full_count FROM recipes ORDER BY id ${sort}`
     }
-
+ 
     //  query = await db`SELECT * FROM recipes ORDER BY id ASC`
 
     // OFFSET LIMIT
