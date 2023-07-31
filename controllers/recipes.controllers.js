@@ -84,6 +84,7 @@ const getAllRecipes = async (req, res) => {
       status: false,
       message: 'Error in server'
     })
+    console.log(error)
   }
 }
 

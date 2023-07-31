@@ -73,17 +73,17 @@ const addNewProfile = async function (req, res) {
   }
 
   // Validasi Email
-  const checkData = await db`SELECT * FROM users WHERE email = ${email}`;
-  const input = req.body;
+  // const checkData = await db`SELECT * FROM users WHERE email = ${email}`;
+  // const input = req.body;
 
-  if (!checkData) {
-    res.json({
-      status: false,
-      massage: "Email Already in use",
-    });
+  // if (!checkData) {
+  //   res.json({
+  //     status: false,
+  //     massage: "Email Already in use",
+  //   });
 
-    return;
-  }
+  //   return;
+  // }
   // End Validasi Email
 
   const payload = {
