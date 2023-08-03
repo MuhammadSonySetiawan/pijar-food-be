@@ -1,10 +1,11 @@
 const models = require('../moduls/recipes.moduls')
 const db = require('../database')
 const jwt = require("jsonwebtoken");
+const cloudinary = require("../cloudinary");
 
 function getToken(req) {
   const token = req?.headers?.authorization?.slice(7, req?.headers?.authorization?.length);
-
+    // console.log(token)
   return token;
 }
 
@@ -148,31 +149,79 @@ const getAllRecipesUsersMe = async (req, res) => {
 
 const postAllrecipes = async (req, res) => {
   try {
-    const { recipePicture, title, ingredients, videoLink } = req.body
+        jwt.verify(getToken(req), process.env.PRIVATE_KEY, async (err, {id}) => {
 
-    if (!(recipePicture && title && ingredients && videoLink)) {
-      res.status(400).json({
-        status: false,
-        massage: 'Bad input, pleace complate all of field'
-      })
+                const { recipePicture } = req?.files ?? {};
+                const { title, ingredients, videoLink } = req.body;
 
-      return
-    }
+                if (!(title && ingredients && videoLink)) {
+                  res.status(400).json({
+                    status: false,
+                    massage: "Bad input, pleace complate all of field",
+                  });
+                }
 
-    const payload = {
-      recipePicture,
-      title,
-      ingredients,
-      videoLink
-    }
+                if (!recipePicture) {
+                  res.status(400).json({
+                    status: false,
+                    massage: "Photo is required",
+                  });
+                }
 
-    const query = await models.postAllrecipes(payload)
+                let mimeType = recipePicture.mimetype.split("/")[1];
+                let allowFile = ["jpeg", "jpg", "png", "webp"];
 
-    res.send({
-      status: true,
-      message: 'Success insert data',
-      data: query
-    })
+                // cari apakah tipe data yang di upload terdapat salah satu dari list yang ada diatas
+                if (!allowFile?.find((item) => item === mimeType)) {
+                  res.status(400).send({
+                    status: false,
+                    message: "Only accept jpeg, jpg, png, webp",
+                  });
+                }
+
+                // validate size image
+                if (recipePicture.size > 2000000) {
+                  res.status(400).send({
+                    status: false,
+                    message: "File to big, max size 2MB",
+                  });
+                }
+                const upload = cloudinary.uploader.upload(
+                  recipePicture.tempFilePath,
+                  {
+                    public_id: new Date().toISOString(),
+                  }
+                );
+
+                upload.then(async (data) => {
+                  const payload = {
+                    recipePicture: data?.secure_url,
+                    title,
+                    ingredients,
+                    videoLink,
+                    createby: id,
+                  };
+
+                  const test = await models.postPhotoRecipe(payload, id);
+
+                  console.log(test);
+
+                  res.status(200).send({
+                    status: true,
+                    message: "Success insert data",
+                    data: payload,
+                  });
+                });
+          
+        })
+
+     .catch((err) => {
+       res.status(400).send({
+         status: false,
+         message: err,
+       });
+     });
+
   } catch (error) {
     res.status(500).json({
       status: false,
@@ -180,6 +229,24 @@ const postAllrecipes = async (req, res) => {
     })
   }
 }
+
+// const uploadImage = async function (photo) {
+//   try {
+//     cloudinary.config({
+//       cloud_name: "df9mh6l4n",
+//       api_key: "368677466729715",
+//       api_secret: "aZElKVwuvGJdPPZkOXAb-BRUk10",
+//     });
+
+//     const upload = await cloudinary.uploader.upload(photo.tempFilePath, {
+//       public_id: new Date().toISOString(),
+//     });
+
+//     return upload.secure_url;
+//   } catch (error) {
+//     throw new Error("Failed to upload image to Cloudinary");
+//   }
+// };
 
 const patchRecipesById = async (req, res) => {
   try {
@@ -291,6 +358,7 @@ module.exports = {
   getAllRecipes,
   getAllRecipesUsersMe,
   postAllrecipes,
+  // uploadImage,
   patchRecipesById,
   patchAllRecipes,
   deleteRecipesById,

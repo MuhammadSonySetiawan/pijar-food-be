@@ -31,6 +31,7 @@ app.use(cors())
 
 // use compression
 app.use(compression())
+
 // grame acces to upload file
 app.use(
   fileUpload({
