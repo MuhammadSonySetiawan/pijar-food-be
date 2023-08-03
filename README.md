@@ -33,6 +33,6 @@ nodemon app
 
 - [`Demo Recipe Food Frontend`](https://pijar-food-react-nine.vercel.app/)
 
-- [`Demo Recipe Food Backend`](https://easy-pink-walrus-garb.cyclic.app/)
+- [`Demo Recipe Food Backend`](https://pijar-food-sonny.onrender.com/)
   
 - [`Demo Postman Recipe Food Backend`](https://documenter.getpostman.com/view/26727163/2s9XxsUvsv)
