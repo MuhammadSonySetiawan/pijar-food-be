@@ -36,6 +36,10 @@ router.get('/recipes/users/me', controllers.getAllRecipesUsersMe)
 // Post RECIPES
 router.post('/recipes', controllers.postAllrecipes)
 
+
+// Post RECIPES
+router.post("/recipes/mobile", controllers.postMobileRecipes);
+
 // Patch RECIPES
 router.patch('/recipes/:id', controllers.patchRecipesById)
 

@@ -230,6 +230,51 @@ const postAllrecipes = async (req, res) => {
   }
 }
 
+
+const postMobileRecipes = async (req, res) => {
+  try {
+    jwt
+      .verify(getToken(req), process.env.PRIVATE_KEY, async (err, { id }) => {
+        const { title, ingredients, videoLink, recipePicture } = req.body;
+
+        if (!(title && ingredients && videoLink)) {
+          res.status(400).json({
+            status: false,
+            massage: "Bad input, pleace complate all of field",
+          });
+        }
+
+        const payload = {
+          recipePicture: recipePicture,
+          title,
+          ingredients,
+          videoLink,
+          createby: id,
+        };
+
+        const test = await models.postPhotoRecipe(payload, id);
+
+        res.status(200).send({
+          status: true,
+          message: "Success insert data",
+          data: payload,
+        });
+      })
+
+      .catch((err) => {
+        res.status(400).send({
+          status: false,
+          message: err,
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      status: false,
+      message: "Error in server",
+    });
+  }
+};
+
 // const uploadImage = async function (photo) {
 //   try {
 //     cloudinary.config({
@@ -363,4 +408,5 @@ module.exports = {
   patchAllRecipes,
   deleteRecipesById,
   DeleteAllRecipes,
+  postMobileRecipes,
 };
