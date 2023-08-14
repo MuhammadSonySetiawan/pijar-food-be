@@ -31,7 +31,7 @@ nodemon app
 
 - [`Backend Recipe Food`](https://github.com/MuhammadSonySetiawan/pijar-food-be)
 
-- [`Demo Recipe Food Frontend`](https://pijar-food-react-nine.vercel.app/)
+- [`Demo Recipe Food Frontend`](https://pijar-food-website.vercel.app/)
 
 - [`Demo Recipe Food Backend`](https://pijar-food-sonny.onrender.com/)
   
