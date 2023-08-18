@@ -146,15 +146,32 @@ const getAllRecipesUsersMe = async (req, res) => {
   }
 };
 
+const getRecipesByCategory = async (req, res) => {
+   try {
+     const { id } = req.params;
+     query = await db`SELECT * FROM recipes WHERE category =${id}`;
+
+     res.json({
+       status: true,
+       message: "Get data success",
+       data: query,
+     });
+   } catch (error) {
+     res.status(500).json({
+       status: false,
+       message: "Error in server",
+     });
+   }
+}
 
 const postAllrecipes = async (req, res) => {
   try {
         jwt.verify(getToken(req), process.env.PRIVATE_KEY, async (err, {id}) => {
 
                 const { recipePicture } = req?.files ?? {};
-                const { title, ingredients, videoLink } = req.body;
+                const { title, ingredients, videoLink, category } = req.body;
 
-                if (!(title && ingredients && videoLink)) {
+                if (!(title && ingredients && videoLink && category)) {
                   res.status(400).json({
                     status: false,
                     massage: "Bad input, pleace complate all of field",
@@ -200,6 +217,7 @@ const postAllrecipes = async (req, res) => {
                     ingredients,
                     videoLink,
                     createby: id,
+                    category,
                   };
 
                   const test = await models.postPhotoRecipe(payload, id);
@@ -409,4 +427,5 @@ module.exports = {
   deleteRecipesById,
   DeleteAllRecipes,
   postMobileRecipes,
+  getRecipesByCategory,
 };

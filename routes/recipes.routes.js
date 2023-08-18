@@ -11,6 +11,9 @@ router.get('/recipes', controllers.getAllRecipes)
 
 //get recipes profile
 router.get('/recipes/users/me', controllers.getAllRecipesUsersMe)
+
+//get recipes profile
+router.get('/recipes/category/:id', controllers.getRecipesByCategory)
 // get all data pagination RECIPES
 //   router.post("/recipes", async function (req, res) {
 //     try { 

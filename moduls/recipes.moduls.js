@@ -45,6 +45,7 @@ const postPhotoRecipe = async(payload) =>{
    "ingredients",
    "videoLink",
    "createby",
+   "category"
  )} returning *`;
     return query
   } catch (error) {
