@@ -220,14 +220,12 @@ const postAllrecipes = async (req, res) => {
                     category,
                   };
 
-                  const test = await models.postPhotoRecipe(payload, id);
-
-                  console.log(test);
+                  const add = await models.postPhotoRecipe(payload, id);
 
                   res.status(200).send({
                     status: true,
                     message: "Success insert data",
-                    data: payload,
+                    data: add,
                   });
                 });
           
